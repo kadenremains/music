@@ -106,11 +106,28 @@ body::before {
   align-items: center;
   justify-content: center;
   padding: 56px 24px;
-  gap: 52px;
+  gap: 44px;
 }
 
 .divider {
   display: none;
+}
+
+/* mobile: clip everything to the inset frame instead of letting it
+   scroll past the border — the frame becomes the scrollable viewport */
+@media (max-width: 819px) {
+  html, body {
+    overflow: hidden;
+  }
+  .wrap {
+    position: fixed;
+    inset: 14px;
+    justify-content: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding: 36px 22px 44px;
+  }
 }
 
 /* ============================================================
@@ -122,14 +139,87 @@ body::before {
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     justify-items: center;
-    column-gap: 56px;
-    padding: 48px 64px;
+    column-gap: 64px;
+    padding: 48px 48px;
   }
   .divider {
     display: block;
     width: 1px;
     align-self: stretch;
     background: var(--divider);
+  }
+
+  /* scale content up to fill the wider columns */
+  .cover {
+    width: clamp(240px, 22vw, 340px);
+    height: clamp(240px, 22vw, 340px);
+  }
+  .song-title {
+    font-size: clamp(30px, 3.2vw, 42px);
+    max-width: 420px;
+  }
+  .song-sub {
+    font-size: 14px;
+  }
+  .player {
+    width: clamp(260px, 20vw, 340px);
+  }
+  .play-btn {
+    width: 40px;
+    height: 40px;
+  }
+  .play-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+  .release-label {
+    font-size: 10px;
+  }
+  .cd-num {
+    font-size: 26px;
+  }
+  .cd-sep {
+    font-size: 24px;
+  }
+  .cd-unit {
+    min-width: 34px;
+  }
+  .avatar {
+    width: clamp(120px, 10vw, 160px);
+    height: clamp(120px, 10vw, 160px);
+  }
+  .name {
+    font-size: clamp(48px, 5vw, 66px);
+  }
+  .rule {
+    width: clamp(240px, 20vw, 320px);
+  }
+  .links {
+    width: clamp(320px, 24vw, 420px);
+  }
+  .link-row {
+    padding: 16px 20px;
+    font-size: 12px;
+  }
+}
+
+/* ============================================================
+   FADE-IN
+   mobile: one continuous top-to-bottom cascade down the page
+   desktop: both columns cascade top-to-bottom in parallel
+   ============================================================ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade {
+  opacity: 0;
+  animation: fadeInUp 0.7s ease forwards;
+  animation-delay: calc(var(--mi, 0) * 90ms);
+}
+@media (min-width: 820px) {
+  .fade {
+    animation-delay: calc(var(--di, 0) * 90ms);
   }
 }
 
@@ -222,6 +312,46 @@ body::before {
   height: 100%;
   width: 0%;
   background: var(--silver-ch);
+}
+
+/* --- release countdown --- */
+.release-label {
+  font-size: 8px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--silver-dim);
+}
+
+.countdown {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+.cd-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 28px;
+}
+.cd-num {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 20px;
+  letter-spacing: 0.02em;
+  color: var(--silver-hi);
+  line-height: 1;
+}
+.cd-lbl {
+  font-size: 6px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--silver-dim);
+}
+.cd-sep {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 18px;
+  color: var(--silver-dim);
+  margin-top: 1px;
 }
 
 /* --- presave CTA --- */
@@ -326,13 +456,13 @@ body::before {
 
   <!-- SONG PROMO -->
   <div class="song">
-    <img class="cover" src="./cover.jpg" alt="HELL (feat. geekstar*) cover art">
-    <div class="song-titlegroup">
+    <img class="cover fade" style="--mi:0;--di:0" src="./cover.jpg" alt="HELL (feat. geekstar*) cover art">
+    <div class="song-titlegroup fade" style="--mi:1;--di:1">
       <div class="song-title">HELL</div>
       <div class="song-sub">feat. geekstar*</div>
     </div>
 
-    <div class="player">
+    <div class="player fade" style="--mi:2;--di:2">
       <button class="play-btn" id="playBtn" aria-label="Play preview" type="button">
         <svg id="iconPlay" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         <svg id="iconPause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
@@ -343,7 +473,19 @@ body::before {
       <audio id="preview" src="./preview.mp3" preload="none"></audio>
     </div>
 
-    <a class="link-row presave-btn" href="https://distrokid.com/hyperfollow/omari23/hell-feat-geekstar" target="_blank" rel="noopener">
+    <div class="release-label fade" style="--mi:3;--di:3">dropping august 13th</div>
+
+    <div class="countdown fade" style="--mi:4;--di:4">
+      <div class="cd-unit"><span class="cd-num" id="cdDays">00</span><span class="cd-lbl">Days</span></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit"><span class="cd-num" id="cdHours">00</span><span class="cd-lbl">Hrs</span></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit"><span class="cd-num" id="cdMins">00</span><span class="cd-lbl">Min</span></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit"><span class="cd-num" id="cdSecs">00</span><span class="cd-lbl">Sec</span></div>
+    </div>
+
+    <a class="link-row presave-btn fade" style="--mi:5;--di:5" href="https://distrokid.com/hyperfollow/omari23/hell-feat-geekstar" target="_blank" rel="noopener">
       <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
       Presave
     </a>
@@ -354,32 +496,32 @@ body::before {
   <!-- SOCIALS / IDENTITY -->
   <div class="social">
 
-    <img class="avatar" src="./pfp.jpg" alt="omari">
+    <img class="avatar fade" style="--mi:6;--di:0" src="./pfp.jpg" alt="omari">
 
-    <div class="idgroup">
+    <div class="idgroup fade" style="--mi:7;--di:1">
       <div class="name">omari!</div>
     </div>
 
-    <div class="rule"></div>
+    <div class="rule fade" style="--mi:8;--di:2"></div>
 
     <div class="links">
 
-      <a class="link-row" href="https://www.instagram.com/omariseason/" target="_blank" rel="noopener">
+      <a class="link-row fade" style="--mi:9;--di:3" href="https://www.instagram.com/omariseason/" target="_blank" rel="noopener">
         <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
         Instagram
       </a>
 
-      <a class="link-row" href="https://x.com/itsonlyk__" target="_blank" rel="noopener">
+      <a class="link-row fade" style="--mi:10;--di:4" href="https://x.com/itsonlyk__" target="_blank" rel="noopener">
         <svg class="ic" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.9 2H22l-7.4 8.4L23.3 22H16.8l-5.1-6.7L5.8 22H2.7l7.9-9L1.7 2h6.6l4.6 6.1L18.9 2zm-1.1 18h1.7L7.2 3.9H5.4l12.4 16.1z"/></svg>
         X
       </a>
 
-      <a class="link-row" href="https://open.spotify.com/artist/6hgjyc5z5QsQl734QOqQlR" target="_blank" rel="noopener">
+      <a class="link-row fade" style="--mi:11;--di:5" href="https://open.spotify.com/artist/6hgjyc5z5QsQl734QOqQlR" target="_blank" rel="noopener">
         <svg class="ic" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm4.6 14.4c-.2.3-.5.4-.8.2-2.2-1.3-4.9-1.6-8.2-.9-.3.1-.6-.1-.7-.4-.1-.3.1-.6.4-.7 3.5-.8 6.5-.4 9 1 .3.2.4.5.3.8zm1.2-2.7c-.2.4-.6.5-1 .3-2.5-1.5-6.3-2-9.3-1.1-.4.1-.8-.1-.9-.5-.1-.4.1-.8.5-.9 3.4-1 7.6-.5 10.5 1.2.4.2.5.6.2 1zm.1-2.8C14.7 9.1 9.9 8.9 7.1 9.8c-.5.1-1-.2-1.1-.6-.1-.5.2-1 .6-1.1 3.3-1 8.6-.8 12 1.2.4.3.6.9.3 1.3-.3.4-.9.5-1.3.3z"/></svg>
         Spotify
       </a>
 
-      <a class="link-row" href="https://soundcloud.com/itsonlyomari" target="_blank" rel="noopener">
+      <a class="link-row fade" style="--mi:12;--di:6" href="https://soundcloud.com/itsonlyomari" target="_blank" rel="noopener">
         <svg class="ic" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M2 15.3c0 .3.2.5.5.5s.5-.2.5-.5v-3.6c0-.3-.2-.5-.5-.5s-.5.2-.5.5v3.6zm2.4.9c0 .3.2.5.5.5s.5-.2.5-.5v-5.4c0-.3-.2-.5-.5-.5s-.5.2-.5.5v5.4zm2.4.5c0 .3.2.5.5.5s.5-.2.5-.5V9.7c0-.3-.2-.5-.5-.5s-.5.2-.5.5v7zm2.4.4c0 .3.2.5.5.5s.5-.2.5-.5V8.9c0-.3-.2-.5-.5-.5s-.5.2-.5.5v8.2zm10.3-6.9a4.6 4.6 0 00-1.7.3 5.2 5.2 0 00-9.7 1.9v4.6c0 .3.2.5.5.5h10.4a2.9 2.9 0 000-5.8c-.1 0 0-1.5-.5-1.5z"/></svg>
         SoundCloud
       </a>
@@ -436,6 +578,33 @@ body::before {
       audio.currentTime = ratio * audio.duration;
     }
   });
+})();
+
+(function () {
+  var target = new Date('2026-08-13T00:00:00-05:00').getTime();
+  var elDays = document.getElementById('cdDays');
+  var elHours = document.getElementById('cdHours');
+  var elMins = document.getElementById('cdMins');
+  var elSecs = document.getElementById('cdSecs');
+
+  function pad(n) {
+    return String(n).padStart(2, '0');
+  }
+
+  function tick() {
+    var diff = Math.max(0, target - Date.now());
+    var days = Math.floor(diff / 86400000);
+    var hours = Math.floor((diff % 86400000) / 3600000);
+    var mins = Math.floor((diff % 3600000) / 60000);
+    var secs = Math.floor((diff % 60000) / 1000);
+    elDays.textContent = pad(days);
+    elHours.textContent = pad(hours);
+    elMins.textContent = pad(mins);
+    elSecs.textContent = pad(secs);
+  }
+
+  tick();
+  setInterval(tick, 1000);
 })();
 </script>
 
