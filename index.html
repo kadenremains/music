@@ -219,135 +219,6 @@ body::before {
   letter-spacing: 0.04em;
 }
 
-/* --- mini player --- */
-.player {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: min(260px, 80vw);
-}
-
-.play-btn {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  border: 1px solid var(--border);
-  background: rgba(16,16,18,0.55);
-  color: var(--silver-hi);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.play-btn:hover {
-  background: rgba(200,205,214,0.06);
-  border-color: rgba(200,205,214,0.3);
-}
-.play-btn svg {
-  width: 12px;
-  height: 12px;
-}
-
-/* generous invisible hit area — the visible line is just .player-track */
-.player-bar {
-  position: relative;
-  flex: 1;
-  height: 22px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  touch-action: none;
-}
-.player-track {
-  position: relative;
-  width: 100%;
-  height: 2px;
-  background: var(--divider);
-  transition: height 0.15s ease;
-}
-.player-bar:hover .player-track,
-.player-bar.scrubbing .player-track {
-  height: 3px;
-}
-.player-fill {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 0%;
-  background: var(--silver-ch);
-}
-/* the classic scrub "bubble" — hidden until you hover or drag */
-.player-thumb {
-  position: absolute;
-  top: 50%;
-  left: 0%;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--silver-hi);
-  box-shadow: 0 0 0 5px rgba(234,237,243,0.14), 0 2px 6px rgba(0,0,0,0.7);
-  transform: translate(-50%, -50%) scale(0);
-  transition: transform 0.15s ease;
-  pointer-events: none;
-}
-.player-bar:hover .player-thumb,
-.player-bar.scrubbing .player-thumb {
-  transform: translate(-50%, -50%) scale(1);
-}
-
-/* --- release countdown --- */
-.release-label {
-  font-size: 8px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--silver-dim);
-}
-
-.countdown {
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
-}
-.cd-unit {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  min-width: 28px;
-}
-.cd-num {
-  font-family: "Bebas Neue", sans-serif;
-  font-size: 20px;
-  letter-spacing: 0.02em;
-  color: var(--silver-hi);
-  line-height: 1;
-}
-.cd-lbl {
-  font-size: 6px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--silver-dim);
-}
-.cd-sep {
-  font-family: "Bebas Neue", sans-serif;
-  font-size: 18px;
-  color: var(--silver-dim);
-  margin-top: 1px;
-}
-
-/* --- presave CTA --- */
-.presave-btn {
-  border-color: rgba(200,205,214,0.3);
-  color: var(--silver-hi);
-}
-.presave-btn:hover {
-  background: rgba(200,205,214,0.1);
-  border-color: rgba(200,205,214,0.5);
-}
-
 /* ============================================================
    SOCIAL / IDENTITY SECTION
    ============================================================ */
@@ -445,29 +316,6 @@ body::before {
   .song-sub {
     font-size: 16px;
   }
-  .player {
-    width: clamp(300px, 23vw, 400px);
-  }
-  .play-btn {
-    width: 46px;
-    height: 46px;
-  }
-  .play-btn svg {
-    width: 16px;
-    height: 16px;
-  }
-  .release-label {
-    font-size: 11px;
-  }
-  .cd-num {
-    font-size: 34px;
-  }
-  .cd-sep {
-    font-size: 30px;
-  }
-  .cd-unit {
-    min-width: 40px;
-  }
   .avatar {
     width: clamp(150px, 13vw, 200px);
     height: clamp(150px, 13vw, 200px);
@@ -503,35 +351,14 @@ body::before {
       <div class="song-title">for you</div>
     </div>
 
-    <div class="player fade" style="--mi:2;--di:2">
-      <button class="play-btn" id="playBtn" aria-label="Play preview" type="button">
-        <svg id="iconPlay" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        <svg id="iconPause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-      </button>
-      <div class="player-bar" id="playerBar">
-        <div class="player-track">
-          <div class="player-fill" id="playerFill"></div>
-          <div class="player-thumb" id="playerThumb"></div>
-        </div>
-      </div>
-      <audio id="preview" src="./preview.mp3" preload="none"></audio>
-    </div>
+    <a class="link-row fade" style="--mi:2;--di:2" href="https://open.spotify.com/track/1tPRkHUxsr68GAPGUQ19Uk?si=b475954cdbcc4013" target="_blank" rel="noopener">
+      <svg class="ic" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm4.6 14.4c-.2.3-.5.4-.8.2-2.2-1.3-4.9-1.6-8.2-.9-.3.1-.6-.1-.7-.4-.1-.3.1-.6.4-.7 3.5-.8 6.5-.4 9 1 .3.2.4.5.3.8zm1.2-2.7c-.2.4-.6.5-1 .3-2.5-1.5-6.3-2-9.3-1.1-.4.1-.8-.1-.9-.5-.1-.4.1-.8.5-.9 3.4-1 7.6-.5 10.5 1.2.4.2.5.6.2 1zm.1-2.8C14.7 9.1 9.9 8.9 7.1 9.8c-.5.1-1-.2-1.1-.6-.1-.5.2-1 .6-1.1 3.3-1 8.6-.8 12 1.2.4.3.6.9.3 1.3-.3.4-.9.5-1.3.3z"/></svg>
+      Spotify
+    </a>
 
-    <div class="release-label fade" style="--mi:3;--di:3">dropping august 30th</div>
-
-    <div class="countdown fade" style="--mi:4;--di:4">
-      <div class="cd-unit"><span class="cd-num" id="cdDays">00</span><span class="cd-lbl">Days</span></div>
-      <div class="cd-sep">:</div>
-      <div class="cd-unit"><span class="cd-num" id="cdHours">00</span><span class="cd-lbl">Hrs</span></div>
-      <div class="cd-sep">:</div>
-      <div class="cd-unit"><span class="cd-num" id="cdMins">00</span><span class="cd-lbl">Min</span></div>
-      <div class="cd-sep">:</div>
-      <div class="cd-unit"><span class="cd-num" id="cdSecs">00</span><span class="cd-lbl">Sec</span></div>
-    </div>
-
-    <a class="link-row presave-btn fade" style="--mi:5;--di:5" href="https://distrokid.com/hyperfollow/omari23/for-you?ref=release" target="_blank" rel="noopener">
-      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
-      Presave
+    <a class="link-row fade" style="--mi:3;--di:3" href="https://soundcloud.com/itsonlyomari/for-you" target="_blank" rel="noopener">
+      <svg class="ic" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M2 15.3c0 .3.2.5.5.5s.5-.2.5-.5v-3.6c0-.3-.2-.5-.5-.5s-.5.2-.5.5v3.6zm2.4.9c0 .3.2.5.5.5s.5-.2.5-.5v-5.4c0-.3-.2-.5-.5-.5s-.5.2-.5.5v5.4zm2.4.5c0 .3.2.5.5.5s.5-.2.5-.5V9.7c0-.3-.2-.5-.5-.5s-.5.2-.5.5v7zm2.4.4c0 .3.2.5.5.5s.5-.2.5-.5V8.9c0-.3-.2-.5-.5-.5s-.5.2-.5.5v8.2zm10.3-6.9a4.6 4.6 0 00-1.7.3 5.2 5.2 0 00-9.7 1.9v4.6c0 .3.2.5.5.5h10.4a2.9 2.9 0 000-5.8c-.1 0 0-1.5-.5-1.5z"/></svg>
+      SoundCloud
     </a>
   </div>
 
@@ -540,37 +367,37 @@ body::before {
   <!-- SOCIALS / IDENTITY -->
   <div class="social">
 
-    <img class="avatar fade" style="--mi:6;--di:0" src="./pfp.jpg" alt="omari">
+    <img class="avatar fade" style="--mi:4;--di:0" src="./pfp.jpg" alt="omari">
 
-    <div class="idgroup fade" style="--mi:7;--di:1">
+    <div class="idgroup fade" style="--mi:5;--di:1">
       <div class="name">omari!</div>
     </div>
 
-    <div class="rule fade" style="--mi:8;--di:2"></div>
+    <div class="rule fade" style="--mi:6;--di:2"></div>
 
     <div class="links">
 
-      <a class="link-row fade" style="--mi:9;--di:3" href="https://www.instagram.com/omariseason/" target="_blank" rel="noopener">
+      <a class="link-row fade" style="--mi:7;--di:3" href="https://www.instagram.com/omariseason/" target="_blank" rel="noopener">
         <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
         Instagram
       </a>
 
-      <a class="link-row fade" style="--mi:10;--di:4" href="https://x.com/itsonlyk__" target="_blank" rel="noopener">
+      <a class="link-row fade" style="--mi:8;--di:4" href="https://x.com/itsonlyk__" target="_blank" rel="noopener">
         <svg class="ic" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.9 2H22l-7.4 8.4L23.3 22H16.8l-5.1-6.7L5.8 22H2.7l7.9-9L1.7 2h6.6l4.6 6.1L18.9 2zm-1.1 18h1.7L7.2 3.9H5.4l12.4 16.1z"/></svg>
         X
       </a>
 
-      <a class="link-row fade" style="--mi:11;--di:5" href="https://open.spotify.com/artist/6hgjyc5z5QsQl734QOqQlR" target="_blank" rel="noopener">
+      <a class="link-row fade" style="--mi:9;--di:5" href="https://open.spotify.com/artist/6hgjyc5z5QsQl734QOqQlR" target="_blank" rel="noopener">
         <svg class="ic" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm4.6 14.4c-.2.3-.5.4-.8.2-2.2-1.3-4.9-1.6-8.2-.9-.3.1-.6-.1-.7-.4-.1-.3.1-.6.4-.7 3.5-.8 6.5-.4 9 1 .3.2.4.5.3.8zm1.2-2.7c-.2.4-.6.5-1 .3-2.5-1.5-6.3-2-9.3-1.1-.4.1-.8-.1-.9-.5-.1-.4.1-.8.5-.9 3.4-1 7.6-.5 10.5 1.2.4.2.5.6.2 1zm.1-2.8C14.7 9.1 9.9 8.9 7.1 9.8c-.5.1-1-.2-1.1-.6-.1-.5.2-1 .6-1.1 3.3-1 8.6-.8 12 1.2.4.3.6.9.3 1.3-.3.4-.9.5-1.3.3z"/></svg>
         Spotify
       </a>
 
-      <a class="link-row fade" style="--mi:12;--di:6" href="https://music.apple.com/us/artist/omari/6799256347" target="_blank" rel="noopener">
+      <a class="link-row fade" style="--mi:10;--di:6" href="https://music.apple.com/us/artist/omari/6799256347" target="_blank" rel="noopener">
         <svg class="ic" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm4.8 15.1c-.1.3-.4.5-.7.4-1.9-.6-3.9-.6-5.8-.1-.6.2-1.2-.2-1.3-.8l-.5-1.9c-.6-2.5.1-4.9 2-6.5.2-.2.5-.2.7 0l1 1c.2.2.2.5 0 .7-1.3 1.1-1.8 2.7-1.4 4.4l.4 1.6c1.7-.4 3.5-.4 5.2.1.4.1.6.5.4.9v.2z"/></svg>
         Apple Music
       </a>
 
-      <a class="link-row fade" style="--mi:13;--di:7" href="https://soundcloud.com/itsonlyomari" target="_blank" rel="noopener">
+      <a class="link-row fade" style="--mi:11;--di:7" href="https://soundcloud.com/itsonlyomari" target="_blank" rel="noopener">
         <svg class="ic" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M2 15.3c0 .3.2.5.5.5s.5-.2.5-.5v-3.6c0-.3-.2-.5-.5-.5s-.5.2-.5.5v3.6zm2.4.9c0 .3.2.5.5.5s.5-.2.5-.5v-5.4c0-.3-.2-.5-.5-.5s-.5.2-.5.5v5.4zm2.4.5c0 .3.2.5.5.5s.5-.2.5-.5V9.7c0-.3-.2-.5-.5-.5s-.5.2-.5.5v7zm2.4.4c0 .3.2.5.5.5s.5-.2.5-.5V8.9c0-.3-.2-.5-.5-.5s-.5.2-.5.5v8.2zm10.3-6.9a4.6 4.6 0 00-1.7.3 5.2 5.2 0 00-9.7 1.9v4.6c0 .3.2.5.5.5h10.4a2.9 2.9 0 000-5.8c-.1 0 0-1.5-.5-1.5z"/></svg>
         SoundCloud
       </a>
@@ -586,110 +413,6 @@ body::before {
 <div class="co tr"></div>
 <div class="co bl"></div>
 <div class="co br"></div>
-
-<script>
-(function () {
-  var audio = document.getElementById('preview');
-  var playBtn = document.getElementById('playBtn');
-  var iconPlay = document.getElementById('iconPlay');
-  var iconPause = document.getElementById('iconPause');
-  var bar = document.getElementById('playerBar');
-  var fill = document.getElementById('playerFill');
-  var thumb = document.getElementById('playerThumb');
-  var dragging = false;
-
-  playBtn.addEventListener('click', function () {
-    if (audio.paused) { audio.play(); } else { audio.pause(); }
-  });
-
-  audio.addEventListener('play', function () {
-    iconPlay.style.display = 'none';
-    iconPause.style.display = '';
-  });
-
-  audio.addEventListener('pause', function () {
-    iconPlay.style.display = '';
-    iconPause.style.display = 'none';
-  });
-
-  function setBarUI(ratio) {
-    var pct = (ratio * 100) + '%';
-    fill.style.width = pct;
-    thumb.style.left = pct;
-  }
-
-  audio.addEventListener('timeupdate', function () {
-    if (audio.duration && !dragging) {
-      setBarUI(audio.currentTime / audio.duration);
-    }
-  });
-
-  audio.addEventListener('ended', function () {
-    setBarUI(0);
-  });
-
-  function ratioFromEvent(e) {
-    var clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    var rect = bar.getBoundingClientRect();
-    return Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
-  }
-
-  function onPointerDown(e) {
-    dragging = true;
-    bar.classList.add('scrubbing');
-    var ratio = ratioFromEvent(e);
-    setBarUI(ratio);
-    if (audio.duration) { audio.currentTime = ratio * audio.duration; }
-    e.preventDefault();
-  }
-
-  function onPointerMove(e) {
-    if (!dragging) { return; }
-    var ratio = ratioFromEvent(e);
-    setBarUI(ratio);
-    if (audio.duration) { audio.currentTime = ratio * audio.duration; }
-  }
-
-  function onPointerUp() {
-    dragging = false;
-    bar.classList.remove('scrubbing');
-  }
-
-  bar.addEventListener('mousedown', onPointerDown);
-  bar.addEventListener('touchstart', onPointerDown, { passive: false });
-  window.addEventListener('mousemove', onPointerMove);
-  window.addEventListener('touchmove', onPointerMove, { passive: false });
-  window.addEventListener('mouseup', onPointerUp);
-  window.addEventListener('touchend', onPointerUp);
-})();
-
-(function () {
-  var target = new Date('2026-08-30T00:00:00-04:00').getTime();
-  var elDays = document.getElementById('cdDays');
-  var elHours = document.getElementById('cdHours');
-  var elMins = document.getElementById('cdMins');
-  var elSecs = document.getElementById('cdSecs');
-
-  function pad(n) {
-    return String(n).padStart(2, '0');
-  }
-
-  function tick() {
-    var diff = Math.max(0, target - Date.now());
-    var days = Math.floor(diff / 86400000);
-    var hours = Math.floor((diff % 86400000) / 3600000);
-    var mins = Math.floor((diff % 3600000) / 60000);
-    var secs = Math.floor((diff % 60000) / 1000);
-    elDays.textContent = pad(days);
-    elHours.textContent = pad(hours);
-    elMins.textContent = pad(mins);
-    elSecs.textContent = pad(secs);
-  }
-
-  tick();
-  setInterval(tick, 1000);
-})();
-</script>
 
 </body>
 </html>
